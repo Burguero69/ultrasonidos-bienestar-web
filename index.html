@@ -317,7 +317,12 @@
     position:relative;height:560px;border-radius:var(--radius);overflow:hidden;
     border:1px solid var(--line);box-shadow:var(--shadow);background:var(--surface);
   }
-  .fb-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .fb-plugin-wrap{
+    position:relative;z-index:1;height:100%;display:flex;justify-content:center;
+    background:var(--surface);
+  }
+  .fb-plugin-wrap .fb-page{width:100%}
+  .fb-embed.fb-failed .fb-plugin-wrap{display:none}
   .fb-fallback{
     position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
     padding:26px 22px;text-align:center;color:var(--ink-soft);
@@ -649,7 +654,7 @@
           </a>
         </div>
       </div>
-      <div class="fb-embed">
+      <div class="fb-embed" id="fbEmbed">
         <div class="fb-fallback">
           <div>
             <b>Nuestras publicaciones están en Facebook</b>
@@ -658,7 +663,11 @@
             <a class="btn btn-fb" href="https://www.facebook.com/profile.php?id=61592870430572" target="_blank" rel="noopener">Ver publicaciones recientes</a>
           </div>
         </div>
-        <iframe title="Página de Facebook de Ultrasonidos Bienestar: publicaciones recientes" src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61592870430572&amp;tabs=timeline&amp;width=500&amp;height=560&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=false" width="500" height="560" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer" loading="lazy"></iframe>
+        <div class="fb-plugin-wrap">
+          <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61592870430572" data-tabs="timeline" data-width="" data-height="560" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
+            <blockquote cite="https://www.facebook.com/profile.php?id=61592870430572" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/profile.php?id=61592870430572">Ultrasonidos Bienestar</a></blockquote>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -781,6 +790,20 @@
   render();
   setPausedUI();
   start();
+})();
+</script>
+
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v21.0"></script>
+<script>
+(function(){
+  var embed = document.getElementById('fbEmbed');
+  if(!embed) return;
+  function check(){
+    if(!embed.querySelector('iframe')) embed.classList.add('fb-failed');
+  }
+  if(document.readyState === 'complete'){ setTimeout(check, 6000); }
+  else { window.addEventListener('load', function(){ setTimeout(check, 6000); }); }
 })();
 </script>
 
